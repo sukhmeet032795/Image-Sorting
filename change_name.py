@@ -7,7 +7,7 @@ for i in x:
         new_x+=[i]
 x=new_x
 for i in x:
-    path=current_directory+'\\'+i
+    path=current_directory+'/'+i
     j=0
     g=0
     found=0
@@ -28,7 +28,7 @@ for i in x:
             j+=1
             name=i+'_'+str(j)+'.jpg'
             try:
-                os.rename(path+'\\'+filename,path+'\\'+name)
+                os.rename(path+'/'+filename,path+'/'+name)
             except:
                 continue
     else:
@@ -36,5 +36,5 @@ for i in x:
             g+=1
             name=i+'_'+str(g)+'.jpg'
             #raw_input('')
-            os.rename(path+'\\'+filename,path+'\\'+name)
+            os.rename(path+'/'+filename,path+'/'+name)
                         

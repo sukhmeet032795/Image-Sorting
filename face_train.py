@@ -24,9 +24,9 @@ def get_images_and_labels():
         return (False,False)
     image_paths=[]
     for i in g:
-        path=current_directory+'\\'+i
+        path=current_directory+'/'+i
         for filename in os.listdir(path):
-            final_path=path+'\\'+filename
+            final_path=path+'/'+filename
             image_paths+=[final_path]
     images = []
     labels = []
@@ -37,7 +37,7 @@ def get_images_and_labels():
         # Convert the image format into numpy array
         image = np.array(img, 'uint8')
         # Get the label of the image
-        backslash=image_path.rindex('\\')
+        backslash=image_path.rindex('/')
         underscore=image_path.index('_',backslash)
         nbr = image_path[backslash+1:underscore]
         t=g.index(nbr)
@@ -76,7 +76,7 @@ def get_name(image_path,recognizer):
         scaleFactor=1.3,
         minNeighbors=5,
         minSize=(30, 30),
-        flags = cv2.cv.CV_HAAR_SCALE_IMAGE
+        flags = cv2.CASCADE_SCALE_IMAGE
     )
     for (x, y, w, h) in faces:
         f= image[y:y+w,x:x+h]
@@ -92,11 +92,11 @@ def get_name(image_path,recognizer):
             reply = buttonbox(msg, image=im, choices=['Yes','No'])
             if reply=='Yes':
                 reply=predicted_name
-                directory=current_directory+'\\'+reply
+                directory=current_directory+'/'+reply
                 if not os.path.exists(directory):
                     os.makedirs(directory)
                 random_name=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
-                path=directory+'\\'+random_name+'.jpg'
+                path=directory+'/'+random_name+'.jpg'
                 cv2.imwrite(path,f)
             else:
                 msg = "Who is this?"
@@ -106,11 +106,11 @@ def get_name(image_path,recognizer):
                     #print name
                     choices+=[name]
                     reply=name
-                directory=current_directory+'\\'+reply
+                directory=current_directory+'/'+reply
                 if not os.path.exists(directory):
                     os.makedirs(directory)
                 random_name=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
-                path=directory+'\\'+random_name+'.jpg'
+                path=directory+'/'+random_name+'.jpg'
                 #print path
             cv2.imwrite(path,f)
         else:
@@ -121,11 +121,11 @@ def get_name(image_path,recognizer):
                 #print name
                 choices+=[name]
                 reply=name
-            directory=current_directory+'\\'+reply
+            directory=current_directory+'/'+reply
             if not os.path.exists(directory):
                 os.makedirs(directory)
             random_name=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
-            path=directory+'\\'+random_name+'.jpg'
+            path=directory+'/'+random_name+'.jpg'
             #print path
             cv2.imwrite(path,f)
         os.remove(im)
@@ -134,32 +134,32 @@ def get_name(image_path,recognizer):
 
 
 # calculate window position
-root = Tk()
-pos = int(root.winfo_screenwidth() * 0.5), int(root.winfo_screenheight() * 0.2)
-root.withdraw()
-WindowPosition = "+%d+%d" % pos
+# root = Tk()
+# pos = int(root.winfo_screenwidth() * 0.5), int(root.winfo_screenheight() * 0.2)
+# root.withdraw()
+# WindowPosition = "+%d+%d" % pos
 
-# patch rootWindowPosition
-rootWindowPosition = WindowPosition
+# # patch rootWindowPosition
+# rootWindowPosition = WindowPosition
             
 def train(img,recognizer):
     print 'Currently processing '+img
-    imagePath = current_directory+'\\'+img
+    imagePath = current_directory+'/'+img
     get_name(imagePath,recognizer)
     
 
 cascPath = 'haarcascade_frontalface_default.xml' #Face detection xml file
-os.system("change_name.py") #Read change_name.py. It renames all the photos in all the folders sequentially.
-for filename in os.listdir("."):
-    os.system("change_name.py")
+os.system("python change_name.py") #Read change_name.py. It renames all the photos in all the folders sequentially.
+for filename in os.listdir("Images/"):
+    os.system("python change_name.py")
     recognizer=''
     try:
         recognizer=train_recognizer()
     except:
         recognizer=False
-    imagePath=filename
+    imagePath= 'Images/' + filename
     train(imagePath,recognizer)
-    os.remove(filename)
+    os.remove(imagePath)
     print 'Done with this photograph'
     
 

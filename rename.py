@@ -29,9 +29,9 @@ def get_images_and_labels():
         return (False,False)
     image_paths=[]
     for i in g:
-        path=current_directory+'\\'+i
+        path=current_directory+'/'+i
         for filename in os.listdir(path):
-            final_path=path+'\\'+filename
+            final_path=path+'/'+filename
             image_paths+=[final_path]
     images = []
     labels = []
@@ -42,7 +42,7 @@ def get_images_and_labels():
         # Convert the image format into numpy array
         image = np.array(img, 'uint8')
         # Get the label of the image
-        backslash=image_path.rindex('\\')
+        backslash=image_path.rindex('/')
         underscore=image_path.index('_',backslash)
         nbr = image_path[backslash+1:underscore]
         t=g.index(nbr)
@@ -81,7 +81,7 @@ def get_name(image_path,recognizer):
         scaleFactor=1.3,
         minNeighbors=5,
         minSize=(30, 30),
-        flags = cv2.cv.CV_HAAR_SCALE_IMAGE
+        flags = cv2.CASCADE_SCALE_IMAGE
     )
     final_name=''
     all_names=[]
@@ -109,10 +109,10 @@ def get_name(image_path,recognizer):
 def rename(img,recognizer):
     from shutil import copyfile
     print 'Currently processing '+img
-    imagePath = current_directory+'\\'+img
+    imagePath = current_directory+'/'+img
     final_name = get_name(imagePath,recognizer)+'.jpg'
-    #new_path = current_directory+'\\'+'Renamed Photographs'
-    #final_name = new_path+'\\'+get_name(imagePath,recognizer)+'.jpg'
+    #new_path = current_directory+'/'+'Renamed Photographs'
+    #final_name = new_path+'/'+get_name(imagePath,recognizer)+'.jpg'
     #if not os.path.exists(new_path):
     #    os.makedirs(new_path)
     #copyfile(imagePath,final_name)
@@ -125,7 +125,7 @@ def rename(img,recognizer):
 cascPath = 'haarcascade_frontalface_default.xml' #Face detection xml file
 for filename in os.listdir("."):
     if filename.endswith('.jpg'):
-        os.system("change_name.py")
+        os.system("python change_name.py")
         recognizer=''
         try:
             recognizer=train_recognizer()
